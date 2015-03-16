@@ -1,0 +1,58 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+<% 
+
+/* try {
+	 
+   ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+   if (GroupLocalServiceUtil.getGroup(themeDisplay.getLayout().getGroupId()).isControlPanel()) {
+ 
+  User currentUser = UserServiceUtil.getUserById(themeDisplay.getUserId());
+  if (!RoleServiceUtil.hasUserRole(currentUser.getUserId(), currentUser.getCompanyId(), "administrator", true)) {
+    throw new PrincipalException("User " + request.getRemoteUser()
+     + " can't access the control panel.");
+  }
+   
+   }
+ } catch (Exception ex) {
+   throw new ActionException(ex);
+ } */	
+/* 
+System.out.println("user.getUserId(): " + user.getUserId());
+System.out.println("user.getCompanyId(): " + user.getCompanyId());
+System.out.println("Resultado: " + RoleServiceUtil.hasUserRole(user.getUserId(), user.getCompanyId(), "administrator", true));
+System.out.println("group.isControlPanel(): " + group.isControlPanel()); */
+%>
+<aui:nav collapsible="<%= true %>" cssClass='<%= portalMessageUseAnimation ? "nav-account-controls" : "nav-account-controls nav-account-controls-notice" %>' icon="user" id="navAccountControls">
+	
+	<c:if test="<%= userSetupComplete %>">
+		<%@ include file="/html/portlet/dockbar/view_page_customization_bar.jspf" %>
+
+		<c:if test="<%= themeDisplay.isShowStagingIcon() %>">
+			<aui:nav-item cssClass="staging-controls">
+				<liferay-portlet:runtime portletName="<%= PortletKeys.STAGING_BAR %>" />
+			</aui:nav-item>
+		</c:if>
+		<!-- Esta parte fue incluidad para evitar que apareciera la opcion administracion y la opcion de sitios web a usuarios diferentes al administrador -->
+			<c:if test="<%= RoleServiceUtil.hasUserRole(user.getUserId(), user.getCompanyId(), \"administrator\", true) %>">
+				<%@ include file="/html/portlet/dockbar/view_admin_links.jspf" %>
+				<%@ include file="/html/portlet/dockbar/view_my_sites.jspf" %>
+			</c:if>
+		<!-- La modificacion termina aca, si se quiere volver al estado inicial de la configuracion se debe eliminar SOLAMENTE el if -->
+	</c:if>
+
+	<%@ include file="/html/portlet/dockbar/view_user_account.jspf" %>
+</aui:nav>
