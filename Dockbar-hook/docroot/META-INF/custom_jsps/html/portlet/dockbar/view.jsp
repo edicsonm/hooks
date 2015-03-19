@@ -13,9 +13,7 @@
  * details.
  */
 --%>
-
 <%@ include file="/html/portlet/dockbar/init.jsp" %>
-
 <%
 Group group = null;
 LayoutSet layoutSet = null;
@@ -220,7 +218,7 @@ String toggleControlsState = GetterUtil.getString(SessionClicks.get(request, "li
 		</aui:nav>
 	</c:if>
 
-	<%@ include file="/html/portlet/dockbar/view_user_panel.jspf" %>
+	<%@ include file="/html/portlet/dockbar/view_user_panel.jsp" %>
 </aui:nav-bar>
 
 <div class="dockbar-messages" id="<portlet:namespace />dockbarMessages">

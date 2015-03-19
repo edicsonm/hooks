@@ -13,31 +13,7 @@
  * details.
  */
 --%>
-<% 
-
-/* try {
-	 
-   ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-   if (GroupLocalServiceUtil.getGroup(themeDisplay.getLayout().getGroupId()).isControlPanel()) {
- 
-  User currentUser = UserServiceUtil.getUserById(themeDisplay.getUserId());
-  if (!RoleServiceUtil.hasUserRole(currentUser.getUserId(), currentUser.getCompanyId(), "administrator", true)) {
-    throw new PrincipalException("User " + request.getRemoteUser()
-     + " can't access the control panel.");
-  }
-   
-   }
- } catch (Exception ex) {
-   throw new ActionException(ex);
- } */	
-/* 
-System.out.println("user.getUserId(): " + user.getUserId());
-System.out.println("user.getCompanyId(): " + user.getCompanyId());
-System.out.println("Resultado: " + RoleServiceUtil.hasUserRole(user.getUserId(), user.getCompanyId(), "administrator", true));
-System.out.println("group.isControlPanel(): " + group.isControlPanel()); */
-%>
 <aui:nav collapsible="<%= true %>" cssClass='<%= portalMessageUseAnimation ? "nav-account-controls" : "nav-account-controls nav-account-controls-notice" %>' icon="user" id="navAccountControls">
-	
 	<c:if test="<%= userSetupComplete %>">
 		<%@ include file="/html/portlet/dockbar/view_page_customization_bar.jspf" %>
 
@@ -48,11 +24,13 @@ System.out.println("group.isControlPanel(): " + group.isControlPanel()); */
 		</c:if>
 		<!-- Esta parte fue incluidad para evitar que apareciera la opcion administracion y la opcion de sitios web a usuarios diferentes al administrador -->
 			<c:if test="<%= RoleServiceUtil.hasUserRole(user.getUserId(), user.getCompanyId(), \"administrator\", true) %>">
-				<%@ include file="/html/portlet/dockbar/view_admin_links.jspf" %>
-				<%@ include file="/html/portlet/dockbar/view_my_sites.jspf" %>
+			<%@ include file="/html/portlet/dockbar/view_admin_links.jspf" %>
+			<%@ include file="/html/portlet/dockbar/view_my_sites.jspf" %>
 			</c:if>
 		<!-- La modificacion termina aca, si se quiere volver al estado inicial de la configuracion se debe eliminar SOLAMENTE el if -->
+		<%-- <%@ include file="/html/portlet/dockbar/view_admin_links.jspf" %>
+		<%@ include file="/html/portlet/dockbar/view_my_sites.jspf" %> --%>
 	</c:if>
 
-	<%@ include file="/html/portlet/dockbar/view_user_account.jspf" %>
+	<%@ include file="/html/portlet/dockbar/view_user_account.jsp" %>
 </aui:nav>

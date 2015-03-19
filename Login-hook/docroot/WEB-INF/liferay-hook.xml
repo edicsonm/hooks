@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hook PUBLIC "-//Liferay//DTD Hook 6.2.0//EN" "http://www.liferay.com/dtd/liferay-hook_6_2_0.dtd">
+
+<hook>
+	<portal-properties>portal.properties</portal-properties>
+	<custom-jsp-global>false</custom-jsp-global>
+   <!--  <struts-action>
+        <struts-action-path>/login/login</struts-action-path>
+        <struts-action-impl>au.com.billingbuddy.hook.CustomLoginAction</struts-action-impl>
+    </struts-action> -->
+    
+   <!-- <struts-action>
+        <struts-action-path>/group</struts-action-path>
+        <struts-action-impl>au.com.billingbuddy.hook.filter</struts-action-impl>
+    </struts-action> -->
+    
+    <!-- <struts-action>
+        <struts-action-path>/portal/j_login_error</struts-action-path>
+        <struts-action-impl>au.com.billingbuddy.hook.dos</struts-action-impl>
+    </struts-action> -->
+    
+</hook>

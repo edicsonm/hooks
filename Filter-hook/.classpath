@@ -18,6 +18,5 @@
 			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/BillingBuddyServer"/>
 	<classpathentry kind="output" path="docroot/WEB-INF/classes"/>
 </classpath>
