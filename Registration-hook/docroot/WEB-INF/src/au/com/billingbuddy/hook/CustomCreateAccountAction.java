@@ -1,5 +1,8 @@
 package au.com.billingbuddy.hook;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
@@ -7,12 +10,14 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import au.com.billingbuddy.business.objects.ProcesorFacade;
 import au.com.billingbuddy.vo.objects.MerchantVO;
 import au.com.billingbuddy.vo.objects.UserMerchantVO;
 
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.struts.BaseStrutsPortletAction;
 import com.liferay.portal.kernel.struts.StrutsPortletAction;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -47,20 +52,47 @@ public class CustomCreateAccountAction extends BaseStrutsPortletAction {
 		
 		originalStrutsPortletAction.processAction(originalStrutsPortletAction, portletConfig, actionRequest, actionResponse);
 		
-		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
-		long UID = UserLocalServiceUtil.getUserIdByEmailAddress(themeDisplay.getCompanyId(), ParamUtil.getString(actionRequest, "emailAddress"));
-//		User user = UserLocalServiceUtil.getUserByEmailAddress(themeDisplay.getCompanyId(), ParamUtil.getString(actionRequest, "emailAddress"));
-		
-		UserMerchantVO userMerchantVO = new UserMerchantVO();
-		userMerchantVO.setUserId(String.valueOf(UID));
-		userMerchantVO.setMerchantVO(new MerchantVO());
-		userMerchantVO.getMerchantVO().setName(CompanyName);
-		userMerchantVO.getMerchantVO().setFirstName(ParamUtil.getString(actionRequest, "firstName"));
-		userMerchantVO.getMerchantVO().setLastName(ParamUtil.getString(actionRequest, "lastName"));
-		userMerchantVO.getMerchantVO().setEmailAddress(ParamUtil.getString(actionRequest, "emailAddress"));
-		System.out.println("CompanyName" + ParamUtil.getString(actionRequest, "CompanyName"));
-		
-		instance.saveUserMerchant(userMerchantVO);
+//		System.out.println("1 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+//		Set<String> val = SessionMessages.keySet(actionRequest);
+//		Iterator<String> iterator = val.iterator();
+//		while (iterator.hasNext()) {
+//			String string = (String) iterator.next();
+//			System.out.println("string: " + string);
+//		}
+//		System.out.println("2 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+//		HttpServletRequest request = PortalUtil.getHttpServletRequest(actionRequest);
+//		val = SessionMessages.keySet(request);
+//		iterator = val.iterator();
+//		while (iterator.hasNext()) {
+//			String string = (String) iterator.next();
+//			System.out.println("string: " + string);
+//		}
+//		System.out.println("3 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+//		HttpSession session = request.getSession();
+//		val = SessionMessages.keySet(session);
+//		iterator = val.iterator();
+//		while (iterator.hasNext()) {
+//			String string = (String) iterator.next();
+//			System.out.println("string: " + string);
+//		}
+		if(SessionErrors.isEmpty(actionRequest)){
+//		if(SessionMessages.contains(PortalUtil.getHttpServletRequest(actionRequest), "userAdded")){
+			System.out.println("Crea usuario");
+			ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+			long UID = UserLocalServiceUtil.getUserIdByEmailAddress(themeDisplay.getCompanyId(), ParamUtil.getString(actionRequest, "emailAddress"));
+	//		User user = UserLocalServiceUtil.getUserByEmailAddress(themeDisplay.getCompanyId(), ParamUtil.getString(actionRequest, "emailAddress"));
+			
+			UserMerchantVO userMerchantVO = new UserMerchantVO();
+			userMerchantVO.setUserId(String.valueOf(UID));
+			userMerchantVO.setMerchantVO(new MerchantVO());
+			userMerchantVO.getMerchantVO().setName(CompanyName);
+			userMerchantVO.getMerchantVO().setFirstName(ParamUtil.getString(actionRequest, "firstName"));
+			userMerchantVO.getMerchantVO().setLastName(ParamUtil.getString(actionRequest, "lastName"));
+			userMerchantVO.getMerchantVO().setEmailAddress(ParamUtil.getString(actionRequest, "emailAddress"));
+			instance.saveUserMerchant(userMerchantVO);
+		}else{
+			System.out.println("NO Crea usuario");
+		}
 	}
 
 	/**

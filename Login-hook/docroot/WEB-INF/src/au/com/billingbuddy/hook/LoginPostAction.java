@@ -1,15 +1,10 @@
 package au.com.billingbuddy.hook;
 
-
-import java.util.Iterator;
-import java.util.List;
-
 import au.com.billingbuddy.business.objects.ProcesorFacade;
 import au.com.billingbuddy.exceptions.objects.ProcesorFacadeException;
 import au.com.billingbuddy.vo.objects.UserMerchantVO;
 
 import com.liferay.portal.kernel.events.Action;
-//import com.liferay.portal.struts.SimpleAction;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -31,7 +26,7 @@ public class LoginPostAction extends Action {
         try {
         	User user = PortalUtil.getUser(request);
         	request.getSession().setAttribute("UserId", String.valueOf(user.getUserId()));
-        	if(UserLocalServiceUtil.hasRoleUser(RoleLocalServiceUtil.getRole(user.getCompanyId(), "administrator").getRoleId(), user.getUserId())){
+        	if(UserLocalServiceUtil.hasRoleUser(RoleLocalServiceUtil.getRole(user.getCompanyId(), "BillingBuddyAdministrator").getRoleId(), user.getUserId())){
 				UserMerchantVO userMerchantVO = new UserMerchantVO();
 				userMerchantVO.setUserId(String.valueOf(user.getUserId()));
 				instance.rechargeAdministratorAccess(userMerchantVO);
