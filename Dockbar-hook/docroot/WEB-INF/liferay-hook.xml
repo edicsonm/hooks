@@ -2,5 +2,26 @@
 <!DOCTYPE hook PUBLIC "-//Liferay//DTD Hook 6.2.0//EN" "http://www.liferay.com/dtd/liferay-hook_6_2_0.dtd">
 
 <hook>
+    <portal-properties>portal.properties</portal-properties>
+    
+    <language-properties>content/Language_en.properties</language-properties>
+    
     <custom-jsp-dir>/META-INF/custom_jsps</custom-jsp-dir>
+    
+    <struts-action>
+        <struts-action-path>/my_account/edit_user</struts-action-path>
+        <struts-action-impl>au.com.billingbuddy.hook.CustomEditUserAction</struts-action-impl>
+    </struts-action>
+    
+    <struts-action>
+        <struts-action-path>/my_account/view</struts-action-path>
+        <struts-action-impl>au.com.billingbuddy.hook.CustomViewAction</struts-action-impl>
+    </struts-action>
+    <!-- /my_account/ir -->
+    <!-- /my_account/save_merchant_file -->
+    <struts-action>
+        <struts-action-path>/my_account/ir</struts-action-path>
+        <struts-action-impl>au.com.billingbuddy.hook.SaveFileMerchantAction</struts-action-impl>
+    </struts-action>
+    
 </hook>

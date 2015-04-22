@@ -1,0 +1,12 @@
+Los archivos: 
+	html/portlet/dockbar/view_user_account.jsp
+	html/portlet/dockbar/view_user_panel.jspf
+son modificados para ocultar las opciones de dockbar a los usuarios normales.
+
+Los archivos: 
+	html/taglib/ui/form_navigator/page.jsp --> Para cambiar los nombres de las opciones a la derecha
+	html/portlet/users_admin/user/details_user_name.jspf --> Para ocultar el campo de middle name, campo de suffix
+	html/portlet/users_admin/user/details.jsp --> Para ocultar el campo ID de Usuario
+	html/portlet/users_admin/user/custom_fields.jsp --> Para incluir todos los campos que se necesitan registrar para el Merchant.
+	html/portlet/users_admin/common/addresses_address.jspf --> Para ocultar la opcion de region en las direcciones.
+son modificados para cambiar las opciones del panel derecho

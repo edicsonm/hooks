@@ -13,6 +13,7 @@
  * details.
  */
 --%>
+
 <!-- Esta parte fue incluidad para evitar que apareciera la opcion administracion y la opcion de sitios web a usuarios diferentes al administrador -->
 <c:if test="<%= RoleServiceUtil.hasUserRole(user.getUserId(), user.getCompanyId(), \"administrator\", true) %>">
 	<c:if test="<%= themeDisplay.isSignedIn() && user.isSetupComplete() %>">
@@ -31,4 +32,4 @@
 	</c:if>
 </c:if>
 <!-- La modificacion termina aca, si se quiere volver al estado inicial de la configuracion se debe eliminar SOLAMENTE el if -->
-<%@ include file="/html/portlet/dockbar/view_user_account.portal.jspf" %>
+<%@ include file="/html/portlet/dockbar/view_user_account.portal.jsp" %>
