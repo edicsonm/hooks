@@ -47,13 +47,13 @@ public class CustomEditUserAction extends BaseStrutsPortletAction {
 		
 //		if(actionRequest.getParameter("cmd") != null && actionRequest.getParameter("cmd") == add_temp)
 		
-		System.out.println("Ejecutando esto .... CustomEditUserAction .... ");
-		
-		Enumeration<String> enume = actionRequest.getParameterNames();
-		while (enume.hasMoreElements()) {
-			String valor = enume.nextElement();
-			System.out.println("Parametro: " + valor + "-->"+ actionRequest.getParameter(valor));
-		}
+//		System.out.println("Ejecutando esto .... CustomEditUserAction .... ");
+//		
+//		Enumeration<String> enume = actionRequest.getParameterNames();
+//		while (enume.hasMoreElements()) {
+//			String valor = enume.nextElement();
+//			System.out.println("Parametro: " + valor + "-->"+ actionRequest.getParameter(valor));
+//		}
 		
 		/*############################################*/
 		UserMerchantVO userMerchantVO = (UserMerchantVO)session.getAttribute("userMerchantVOAuthenticated");
@@ -80,17 +80,24 @@ public class CustomEditUserAction extends BaseStrutsPortletAction {
 			merchantVO.setIssuedPersonalID(actionRequest.getParameter("issuedPersonalID"));
 			merchantVO.setTypeAccountApplication(actionRequest.getParameter("typeAccountApplication"));
 			merchantVO.setEstimatedAnnualSales(actionRequest.getParameter("estimatedAnnualSales"));
+			merchantVO.setAverageTicketSize(actionRequest.getParameter("averageTicketSize"));
+			merchantVO.setMonthlyProcessingVolume(actionRequest.getParameter("monthlyProcessingVolume"));
+			merchantVO.setFirstQuestion(actionRequest.getParameter("firstQuestion"));
+			merchantVO.setSecondQuestion(actionRequest.getParameter("secondQuestion"));
+			merchantVO.setThirdQuestion(actionRequest.getParameter("thirdQuestion"));
+			
+			System.out.println("firstQuestion: " + actionRequest.getParameter("firstQuestion"));
+			System.out.println("secondQuestion: " + actionRequest.getParameter("secondQuestion"));
+			System.out.println("thirdQuestion: " + actionRequest.getParameter("thirdQuestion"));
 			
 			session.setAttribute("merchantVO", merchantVO);
-			System.out.println("merchantVO.getId(): " + merchantVO.getId());
+//			System.out.println("merchantVO.getId(): " + merchantVO.getId());
 			try {
 				procesorFacade.updateMerchant(merchantVO);
 				if(merchantVO.getStatus().equalsIgnoreCase("success")) {
-					
-					System.out.println("Datos actualizados satifactoriamente ... ");
-					
-					ArrayList<MerchantVO> listMerchants = procesorFacade.listAllMerchants(new MerchantVO(String.valueOf(PortalUtil.getUserId(request))));
-					session.setAttribute("listMerchants", listMerchants);
+//					System.out.println("Datos actualizados satifactoriamente ... ");
+//					ArrayList<MerchantVO> listMerchants = procesorFacade.listAllMerchants(new MerchantVO(String.valueOf(PortalUtil.getUserId(request))));
+//					session.setAttribute("listMerchants", listMerchants);
 					SessionMessages.add(actionRequest, "merchantSavedSuccessfully");
 	//				 try {
 	//					InternetAddress fromAddress = new InternetAddress("pepitoperez@billingbuddy.com"); // from address
@@ -114,7 +121,7 @@ public class CustomEditUserAction extends BaseStrutsPortletAction {
 	//				}
 	//				actionResponse.setRenderParameter("jspPage", "/jsp/view.jsp");
 				} else {
-					System.out.println("Datos NO actualizados satifactoriamente ... ");
+//					System.out.println("Datos NO actualizados satifactoriamente ... ");
 					LiferayPortletConfig liferayPortletConfig = (LiferayPortletConfig) portletConfig;
 					SessionMessages.add(actionRequest, liferayPortletConfig.getPortletId() + SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_ERROR_MESSAGE);
 					SessionErrors.add(actionRequest, "error");

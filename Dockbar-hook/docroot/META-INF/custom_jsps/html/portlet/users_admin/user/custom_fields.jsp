@@ -47,52 +47,47 @@
 </div> --%>
 
 <portlet:defineObjects />
+<fmt:setBundle basename="Language"/>
 
-
-<portlet:renderURL var="saveDocument" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>"> --%>
+<portlet:renderURL var="saveDocument" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
 	<portlet:param name="struts_action" value="/ir" />
 	<portlet:param name="redirect" value="<%= currentURL %>" />
 </portlet:renderURL>
 
-<portlet:renderURL var="simpleDialogExample"
-	windowState="<%=LiferayWindowState.EXCLUSIVE.toString()%>">
-	<portlet:param name="mvcPath"
-		value="/html/alloyuidialog/simple_alloyui_dialog-content.jsp" />
+<portlet:renderURL var="simpleDialogExample" windowState="<%=LiferayWindowState.EXCLUSIVE.toString()%>">
+	<portlet:param name="mvcPath" value="/html/alloyuidialog/simple_alloyui_dialog-content.jsp" />
 	<portlet:param name="message" value="Hello welcome" />
 </portlet:renderURL>
 
-<aui:script>
-AUI().use('aui-base',
-'aui-io-plugin-deprecated',
-'liferay-util-window',
-function(A) {
-A.one('#<portlet:namespace />simple-dialog-example').on('click', function(event){
-var popUpWindow=Liferay.Util.Window.getWindow(
-{
-dialog: {
-centered: true,
-constrain2view: true,
-<!-- //cssClass: 'yourCSSclassName', -->
-modal: true,
-resizable: false,
-width: 475
-}
-}
-).plug(
-A.Plugin.IO,
-{
-autoLoad: false
-}).render();
-popUpWindow.show();
-popUpWindow.titleNode.html("Liferay 6.2 Dialog Window");
-popUpWindow.io.set('uri','<%=simpleDialogExample%>');
-popUpWindow.io.start();
-
+<%-- <aui:script>
+AUI().use('aui-base', 'aui-io-plugin-deprecated', 'liferay-util-window', function(A) {
+	A.one('#<portlet:namespace />simple-dialog-example').on('click', function(event){
+	var popUpWindow=Liferay.Util.Window.getWindow({
+			dialog: {
+			centered: true,
+			constrain2view: true,
+			<!-- //cssClass: 'yourCSSclassName', -->
+			modal: true,
+			resizable: false,
+			render: '#modalCards',
+			width: 475
+			}
+		}
+	).plug(A.Plugin.IO, {
+			uri: '<%=saveDocument%>'
+			<!-- ,autoLoad: false -->
+			}).render();
+			
+	popUpWindow.show();
+	popUpWindow.titleNode.html("Liferay 6.2 Dialog Window");
+	popUpWindow.io.set('uri','<%=saveDocument%>');
+	popUpWindow.io.start();
+	
+	});
 });
-});
-</aui:script>
+</aui:script> --%>
 
-<aui:script use="aui-node,aui-base,aui-modal">
+<%-- <aui:script use="aui-base, aui-io-plugin-deprecated, liferay-util-window">
 window.showDetailsCard = 
     function(url) {
         var portletURL="<%=themeDisplay.getURLCurrent().toString()%>";
@@ -106,11 +101,68 @@ window.showDetailsCard =
                 width: 450,
                 height: 300
             }
-        ).plug(A.Plugin.IO, { uri: url }).render();
+        ).plug(A.Plugin.IO, { uri: '<%=saveDocument%>', autoLoad: false }).render();
     }
-<!-- showDetailsCard.show(); -->  
     
-</aui:script>
+</aui:script> --%>
+
+<%-- <aui:script>
+
+Liferay.provide(
+	window,
+	'showSiteManagement',
+	function() {
+		var A = AUI(); 	
+		var portletURL="<%= themeDisplay.getURLCurrent().toString() %>";
+		var dialog = new A.Dialog(
+			{
+				destroyOnClose: true,
+				modal: false,
+				title: 'My title',
+				width: 900
+			}
+		).plug(
+			A.Plugin.IO,
+				{
+					uri: '<%=saveDocument%>'
+				}
+		).render();
+	},
+	['aui-dialog']
+); 
+</aui:script> --%>
+
+<aui:script>
+	Liferay.provide(
+		window,
+		'addDocument',
+		function() {
+			var instance = this;
+			var url='<%=  saveDocument.toString() %>';
+				Liferay.Util.openWindow(
+					{
+						cache: false,
+						dialog: {
+							align: Liferay.Util.Window.ALIGN_CENTER,
+							after: {
+								render: function(event) {
+									this.set('y', this.get('y') + 50);
+								}
+							},
+							width: 820
+						},
+						dialogIframe: {
+							id: 'addDocumentIframe',
+							uri: url
+						},
+						title: '<liferay-ui:message key="label.attachDocument"/>',
+						uri: url
+					}
+				);
+		},
+		['liferay-util-window']
+	);
+	</aui:script>
 
 <liferay-ui:error key="ProcessorMDTR.updateMerchant.MerchantDAOException" message="error.ProcessorMDTR.updateMerchant.MerchantDAOException" />
 
@@ -118,15 +170,29 @@ window.showDetailsCard =
 	<portlet:param name="action" value="ENVIANDO INFORMACION"/>
 </portlet:actionURL>
 
+<portlet:renderURL var="ejecutarVentana"  windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+	<portlet:param name="struts_action" value="/ir" />
+		<portlet:param name="redirect" value="<%= currentURL %>" />
+</portlet:renderURL>
+
+<%-- <input type="button" value="select" onClick="
+	var organizationWindow = window.open('<%= ejecutarVentana.toString() %>',  'title', 
+	'directories=no, height=640, location=no, menubar=no, resizable=yes, scrollbars=yes, status=no, toolbar=no, width=680'); organizationWindow.focus();" />
+
+
 <a href="<portlet:renderURL />">&laquo;Home</a>
 <div class="separator"></div>
+<div id="modalCards"></div>
 <div>
 	<h1>Simple AUI Dialog Please click on button and see</h1>
 	<br />
-	<aui:button name="simple-dialog-example" id="simple-dialog-example"
-		value="Click Here See Simple Allou UI Dialog">
+	<aui:button name="simple-dialog-example" id="simple-dialog-example" value="Click Here See Simple Allou UI Dialog">
 	</aui:button>
 </div>
+
+<a onclick="showDetailsCard('<%= saveDocument.toString() %>')" href="#">Cargar Archivos 1</a> --%>
+
+<!-- <aui:button onClick="showSiteManagement();" type="" name="processRefund" value="cargarArchivos" /> -->
 
 <div class="form-section tab-pane active" role="tabpanel">
 	<%  
@@ -215,69 +281,30 @@ window.showDetailsCard =
 			</div>
 			
 			<div class="control-group">
-				<aui:input label="label.averageTicketSize" helpMessage="help.averageTicketSize" name="averageTicketSize" value="${merchantVO.estimatedAnnualSales}" showRequiredLabel="false" type="text" required="false" >
+				<aui:input label="label.averageTicketSize" helpMessage="help.averageTicketSize" name="averageTicketSize" value="${merchantVO.averageTicketSize}" showRequiredLabel="false" type="text" required="false" >
 				</aui:input>
 			</div>
 			
 			<div class="control-group">
-				<aui:input label="label.monthlyProcessingVolume" helpMessage="help.monthlyProcessingVolume" name="monthlyProcessingVolume" value="${merchantVO.estimatedAnnualSales}" showRequiredLabel="false" type="text" required="false" >
+				<aui:input label="label.monthlyProcessingVolume" helpMessage="help.monthlyProcessingVolume" name="monthlyProcessingVolume" value="${merchantVO.monthlyProcessingVolume}" showRequiredLabel="false" type="text" required="false" >
 				</aui:input>
 			</div>
 			
 			<div class="control-group">
-				<aui:input name="check" label="business-information-first-question" type="checkbox" value="1"></aui:input>
+				<aui:input name="firstQuestion"  label="business-information-first-question" type="checkbox" value="${merchantVO.firstQuestion}"></aui:input>
 			</div>
 			
 			<div class="control-group">
-				<aui:input name="check" label="business-information-second-question" type="checkbox" value="1"></aui:input>
+				<aui:input name="secondQuestion" label="business-information-second-question" type="checkbox" value="${merchantVO.secondQuestion}"></aui:input>
 			</div>
 			
 			<div class="control-group">
-				<aui:input name="check" label="business-information-third-question" type="checkbox" value="1"></aui:input>
+				<aui:input name="thirdQuestion" label="business-information-third-question" type="checkbox" value="${merchantVO.thirdQuestion}"></aui:input>
 			</div>
-			
-			
-			<!-- <div class="control-group">
-				<aui:input name="check" label="business-information-fourth-question" type="checkbox" value="1"></aui:input>
-			</div>
-			
-			<div class="control-group">
-				<aui:input name="check" label="business-information-fifth-question" type="checkbox" value="1"></aui:input>
-			</div> -->
-			
-			
 			
 		</fieldset>
-	</div>
-	<div class="row-fluid">
 		
-		<aui:fieldset cssClass="span5">
-			
-			<a onclick="showDetailsCard('<%= saveDocument.toString() %>')" href="#">Cargar Archivos 1</a>
-			<a onclick="showPopup()" href="#">Cargar Archivos 2</a>
-			<div>
-				<c:if test="<%= selUser != null %>">
-					<c:choose>
-						<c:when test='<%= UsersAdminUtil.hasUpdateFieldPermission(permissionChecker, user, selUser, "portrait") %>'>
-							<portlet:renderURL var="saveDocument" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-								<portlet:param name="struts_action" value="/ir" />
-								<portlet:param name="redirect" value="<%= currentURL %>" />
-							</portlet:renderURL>
-							ja ja ja ja
-							<liferay-ui:logo-selector
-								currentLogoURL="<%= selUser.getPortraitURL(themeDisplay) %>"
-								defaultLogoURL="<%= UserConstants.getPortraitURL(themeDisplay.getPathImage(), selUser.isMale(), 0) %>"
-								editLogoURL="<%= saveDocument %>"
-								imageId="<%= selUser.getPortraitId() %>"
-								logoDisplaySelector=".user-logo"/>
-						</c:when>
-						<c:otherwise>
-							<img src="<%= selUser.getPortraitURL(themeDisplay) %>" />
-						</c:otherwise>
-					</c:choose>
-				</c:if>
-			</div>
-		</aui:fieldset>
+		<button type="button" onclick="addDocument();" class="btn btn-primary"><liferay-ui:message key="label.attachDocument"/></button>
+		
 	</div>
-	
 </div>

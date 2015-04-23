@@ -25,51 +25,60 @@
 
 <liferay-ui:error exception="<%= NoSuchFileException.class %>" message="an-unexpected-error-occurred-while-uploading-your-file" />
 <liferay-ui:error exception="<%= UploadException.class %>" message="an-unexpected-error-occurred-while-uploading-your-file" />
-
+<liferay-ui:error key="file.UploadException" message="error.file.UploadException" />
 <%
 	ArrayList<MerchantDocumentVO> arrayListFiles = (ArrayList)session.getAttribute("arrayListFiles");
-	System.out.print("Ejecutando esto ...");
 	if(arrayListFiles == null) arrayListFiles = new ArrayList<MerchantDocumentVO>();
-	out.print("Time " + Calendar.getInstance().getTimeInMillis());
+/* 	out.print("Time " + Calendar.getInstance().getTimeInMillis()); */
 %>
 
-<fieldset class="fieldset">
-	<legend class="fieldset-legend">
-		<span class="legend"><fmt:message key="label.attachDocument"/></span>
-		<span class="legend"><fmt:message key="business-information"/> </span>
-	</legend>
-</fieldset>
-
-<%-- <portlet:actionURL var='uploadURL' name="upload" /> --%>
 <portlet:actionURL var="uploadURL">
 	<portlet:param name="struts_action" value="/ir" />
 </portlet:actionURL>
  
 <aui:form name="fm" action="<%=uploadURL.toString()%>" method="post" enctype="multipart/form-data">
-    <span class="legend"><fmt:message key="business-information"/> </span>
+	
+	<div class="control-group">
+		<aui:input label="label.document" required="true" helpMessage="help.document"  name="fileName" id="fileName" type="file" />
+	</div>
     
-    <aui:input name="fileName" id="fileName" type="file" />
-    <aui:button type="submit" value="Upload" />
+     <div class="control-group">
+		<aui:input label="label.description" value="" helpMessage="help.description" name="description" id="description" showRequiredLabel="false" type="text" required="true" >
+		</aui:input>
+	</div>
+    
+    <button type="submit" class="btn btn-primary" /><liferay-ui:message key="label.upload"/></button>
     
     <liferay-ui:search-container emptyResultsMessage="There is no data to display">
 	    <liferay-ui:search-container-results
 	        results="<%= new ArrayList(ListUtil.subList(arrayListFiles, searchContainer.getStart(), searchContainer.getEnd()))%>"
 	        total="<%= arrayListFiles.size() %>" />
-	    <liferay-ui:search-container-row className="au.com.billingbuddy.vo.objects.MerchantDocumentVO" modelVar="merchantDocumentVO">
-	        
-	        <%-- <portlet:resourceURL var="viewURL">
-	            <portlet:param name="dataId" value="<%=String.valueOf(aBlobDemo.getBlobId())%>" />
-	        </portlet:resourceURL> --%>
+	    <liferay-ui:search-container-row className="au.com.billingbuddy.vo.objects.MerchantDocumentVO" indexVar="indice" modelVar="merchantDocumentVO">
 	         
-	         <liferay-ui:search-container-column-text name="label.name" property="name" orderable="false"/>
+	         <portlet:resourceURL  var="imageResourceURL">
+	         	<portlet:param name="struts_action" value="/ir"/>
+				<portlet:param name="operacion" value="cargarImagen"/>
+				<portlet:param name="indice" value="<%=String.valueOf(indice)%>"/>
+			</portlet:resourceURL>
+			
+			 <liferay-ui:search-container-column-text  href="<%=imageResourceURL.toString() %>" property="name" name="label.name"/>
+			 <liferay-ui:search-container-column-text name="label.size" property="size" orderable="false"/>
+	         <liferay-ui:search-container-column-text name="label.description" value="${Utils:printString(merchantDocumentVO.description)}" orderable="false"/>
 	         
-	        <%-- <liferay-ui:search-container-column-text value="<%=String.valueOf(row.getPos() + 1)%>" name="Serial No" />
-	        <liferay-ui:search-container-column-text href="<%=viewURL.toString() %>" property="name" name="File Name"  /> --%>
-	        <%-- <liferay-ui:search-container-column-jsp path="/action.jsp" align="right" /> --%>
-	 
+	         <liferay-ui:search-container-column-text name="Accion">
+				<liferay-ui:icon-menu>
+				<liferay-portlet:renderURL varImpl="removeDocument">
+					<portlet:param name="struts_action" value="/ir"/>
+					<portlet:param name="indice" value="<%=String.valueOf(indice)%>"/>
+					<portlet:param name="action" value="removeElement"/>
+				</liferay-portlet:renderURL>
+				<liferay-ui:icon image="delete" onClick="return confirm('Are you sure do you want to remove this file?')" message="label.remove" url="<%=removeDocument.toString()%>" />
+					
+				</liferay-ui:icon-menu>
+			</liferay-ui:search-container-column-text>
+	         
 	    </liferay-ui:search-container-row>
-	 
-	    <liferay-ui:search-iterator />
+	    <liferay-ui:search-iterator paginate="false"/>
 	</liferay-ui:search-container>
     
 </aui:form>

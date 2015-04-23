@@ -56,13 +56,13 @@ public class CustomViewAction extends BaseStrutsPortletAction {
 //			return;
 //		}
 		
-		System.out.println("Ejecutando esto .... processAction .... ");
+//		System.out.println("Ejecutando esto .... processAction .... ");
 		
-		Enumeration<String> enume = actionRequest.getParameterNames();
-		while (enume.hasMoreElements()) {
-			String valor = enume.nextElement();
-			System.out.println("Parametro: " + valor + "-->"+ actionRequest.getParameter(valor));
-		}
+//		Enumeration<String> enume = actionRequest.getParameterNames();
+//		while (enume.hasMoreElements()) {
+//			String valor = enume.nextElement();
+//			System.out.println("Parametro: " + valor + "-->"+ actionRequest.getParameter(valor));
+//		}
 		
 		originalStrutsPortletAction.processAction(originalStrutsPortletAction, portletConfig, actionRequest, actionResponse);
 		
@@ -93,9 +93,16 @@ public class CustomViewAction extends BaseStrutsPortletAction {
 	 */
 	public String render(StrutsPortletAction originalStrutsPortletAction, PortletConfig portletConfig, RenderRequest renderRequest, RenderResponse renderResponse) throws Exception {
 		
-		System.out.println("Ejecuta el metodo render .... CustomViewAction .... ");
+//		System.out.println("Ejecuta el metodo render .... CustomViewAction .... ");
 		HttpServletRequest request = PortalUtil.getHttpServletRequest(renderRequest);
 		HttpSession session = request.getSession();
+//		Enumeration<String> enume = renderRequest.getParameterNames();
+//		while (enume.hasMoreElements()) {
+//			String valor = enume.nextElement();
+//			System.out.println("Parametro en CustomViewAction: " + valor + "-->"+ renderRequest.getParameter(valor));
+//		}
+		
+		
 //		String UserId = (String)PortalSessionThreadLocal.getHttpSession().getAttribute("UserId");
 		try {
 			
@@ -114,7 +121,7 @@ public class CustomViewAction extends BaseStrutsPortletAction {
 			MerchantVO merchantVO = new MerchantVO();
 			merchantVO.setId(userMerchantVO.getMerchantId());
 			merchantVO = procesorFacade.searchMerchantDetailsUpdateProfile(merchantVO);
-			System.out.println("merchantVO.getIndustryId(): " + merchantVO.getIndustryId());
+//			System.out.println("merchantVO.getIndustryId(): " + merchantVO.getIndustryId());
 			session.setAttribute("merchantVO", merchantVO);
 			
 			ArrayList<CountryVO> listCountries = procesorFacade.listCountries();
@@ -145,7 +152,7 @@ public class CustomViewAction extends BaseStrutsPortletAction {
 	@Override
 	public void serveResource(StrutsPortletAction originalStrutsPortletAction, PortletConfig portletConfig, ResourceRequest resourceRequest,
 			ResourceResponse resourceResponse) throws Exception {
-		System.out.println("serveResource .... ");
+//		System.out.println("serveResource .... ");
 		super.serveResource(originalStrutsPortletAction, portletConfig, resourceRequest, resourceResponse);
 	}
 
