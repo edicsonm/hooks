@@ -123,8 +123,11 @@ birthdayCalendar.set(Calendar.YEAR, 1970);
 
 	<aui:fieldset column="<%= true %>">
 		<aui:col width="<%= 50 %>">
-			<%@ include file="/html/portlet/login/create_account_user_name.jspf" %>
 
+			<%-- <%@ include file="/html/portlet/login/create_account_user_name.jspf" %> --%>
+			<!-- Modificacion realizada para ocultar el campo middleName en el formulario de registro inicial -->
+			<%@ include file="/html/portlet/login/create_account_user_name.Registration-hook.jsp" %>
+			
 			<c:if test="<%= !PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.USERS_SCREEN_NAME_ALWAYS_AUTOGENERATE) %>">
 				<aui:input model="<%= User.class %>" name="screenName" />
 			</c:if>
@@ -164,10 +167,6 @@ birthdayCalendar.set(Calendar.YEAR, 1970);
 					<aui:option label="female" selected="<%= !male %>" value="0" />
 				</aui:select>
 			</c:if>
-			
-			<div class="exp-ctrl-holder">
-				<liferay-ui:custom-attribute className="<%= User.class.getName() %>" classPK="<%= 0 %>" editable="<%= true %>" label="<%= true %>" name="CompanyName"/>
-			</div>
 			
 			<c:if test="<%= PropsValues.CAPTCHA_CHECK_PORTAL_CREATE_ACCOUNT %>">
 				<portlet:resourceURL var="captchaURL">

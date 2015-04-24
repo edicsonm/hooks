@@ -162,7 +162,7 @@ Liferay.provide(
 		},
 		['liferay-util-window']
 	);
-	</aui:script>
+</aui:script>
 
 <liferay-ui:error key="ProcessorMDTR.updateMerchant.MerchantDAOException" message="error.ProcessorMDTR.updateMerchant.MerchantDAOException" />
 
